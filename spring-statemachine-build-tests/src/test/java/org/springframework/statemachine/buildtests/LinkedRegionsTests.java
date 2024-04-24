@@ -51,11 +51,10 @@ public class LinkedRegionsTests extends AbstractBuildTests {
 					.step().expectStateChanged(15).expectStates("S3").and()
 					.build();
 		plan.test();
-		assertThat(listener.statesEntered).satisfies(l -> {
+		assertThat(listener.statesEntered).satisfies(l ->
 			l.forEach(s -> {
 				assertThat(s).doesNotStartWith("JOIN");
-			});
-		});
+			}));
 	}
 
 	@Configuration

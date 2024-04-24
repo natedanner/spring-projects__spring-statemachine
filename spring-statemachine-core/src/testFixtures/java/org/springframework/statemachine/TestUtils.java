@@ -46,7 +46,7 @@ import reactor.test.StepVerifier;
  */
 public class TestUtils {
 
-	private static Log log = LogFactory.getLog(TestUtils.class);
+	private static final Log log = LogFactory.getLog(TestUtils.class);
 
 	@SuppressWarnings("unchecked")
 	public static <S, E> StateMachine<S, E> resolveMachine(BeanFactory beanFactory) {
@@ -119,17 +119,15 @@ public class TestUtils {
 
 	public static <S, E> void doSendEventAndConsumeResultAsDenied(StateMachine<S, E> stateMachine, E event) {
 		StepVerifier.create(stateMachine.sendEvent(eventAsMono(event)))
-			.consumeNextWith(result -> {
-				assertThat(result.getResultType()).isEqualTo(ResultType.DENIED);
-			})
+			.consumeNextWith(result ->
+				assertThat(result.getResultType()).isEqualTo(ResultType.DENIED))
 			.verifyComplete();
 	}
 
 	public static <S, E> void doSendEventAndConsumeResultAsDenied(StateMachine<S, E> stateMachine, Message<E> event) {
 		StepVerifier.create(stateMachine.sendEvent(eventAsMono(event)))
-			.consumeNextWith(result -> {
-				assertThat(result.getResultType()).isEqualTo(ResultType.DENIED);
-			})
+			.consumeNextWith(result ->
+				assertThat(result.getResultType()).isEqualTo(ResultType.DENIED))
 			.verifyComplete();
 	}
 
@@ -147,10 +145,9 @@ public class TestUtils {
 	@SafeVarargs
 	public static <S, E> void doSendEventsAndConsumeAllWithComplete(StateMachine<S, E> stateMachine, E... events) {
 		Flux<Void> completions = stateMachine.sendEvents(eventsAsFlux(events))
-			.doOnNext(result -> {
-				log.debug("Consume eventResult " + result);
-			})
-			.flatMap(result -> result.complete());
+			.doOnNext(result ->
+				log.debug("Consume eventResult " + result))
+			.flatMap(StateMachineEventResult::complete);
 		StepVerifier.create(completions)
 			.thenConsumeWhile(complete -> true)
 			.expectComplete()
@@ -170,9 +167,10 @@ public class TestUtils {
 			clazz = clazz.getSuperclass();
 		} while (field == null && !clazz.equals(Object.class));
 
-		if (field == null)
+		if (field == null) {
 			throw new IllegalArgumentException("Cannot find field '" + name + "' in the class hierarchy of "
 					+ target.getClass());
+		}
 		field.setAccessible(true);
 		return (T) field.get(target);
 	}
@@ -182,9 +180,10 @@ public class TestUtils {
 		Class<?> clazz = target.getClass();
 		Method method = ReflectionUtils.findMethod(clazz, name);
 
-		if (method == null)
+		if (method == null) {
 			throw new IllegalArgumentException("Cannot find method '" + method + "' in the class hierarchy of "
 					+ target.getClass());
+		}
 		method.setAccessible(true);
 		return (T) ReflectionUtils.invokeMethod(method, target);
 	}
@@ -201,9 +200,10 @@ public class TestUtils {
 			clazz = clazz.getSuperclass();
 		} while (field == null && !clazz.equals(Object.class));
 
-		if (field == null)
+		if (field == null) {
 			throw new IllegalArgumentException("Cannot find field '" + name + "' in the class hierarchy of "
 					+ target.getClass());
+		}
 		field.setAccessible(true);
 		field.set(target, value);
 	}
@@ -213,9 +213,10 @@ public class TestUtils {
 		Class<?> clazz = target.getClass();
 		Method method = ReflectionUtils.findMethod(clazz, name, argsTypes);
 
-		if (method == null)
+		if (method == null) {
 			throw new IllegalArgumentException("Cannot find method '" + method + "' in the class hierarchy of "
 					+ target.getClass());
+		}
 		method.setAccessible(true);
 		return (T) ReflectionUtils.invokeMethod(method, target, args);
 	}

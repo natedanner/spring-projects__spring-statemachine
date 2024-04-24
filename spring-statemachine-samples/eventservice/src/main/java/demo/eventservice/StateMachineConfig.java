@@ -66,7 +66,7 @@ public class StateMachineConfig {
 	@Bean(name = "stateMachineTarget")
 	@Scope(scopeName="prototype")
 	public StateMachine<States, Events> stateMachineTarget() throws Exception {
-		Builder<States, Events> builder = StateMachineBuilder.<States, Events>builder();
+		Builder<States, Events> builder = StateMachineBuilder.builder();
 
 		builder.configureConfiguration()
 			.withConfiguration()
@@ -136,7 +136,7 @@ public class StateMachineConfig {
 
 	@Bean
 	public Action<States, Events> pageviewAction() {
-		return new Action<States, Events>() {
+		return new Action<>() {
 
 			@Override
 			public void execute(StateContext<States, Events> context) {
@@ -153,7 +153,7 @@ public class StateMachineConfig {
 
 	@Bean
 	public Action<States, Events> addAction() {
-		return new Action<States, Events>() {
+		return new Action<>() {
 
 			@Override
 			public void execute(StateContext<States, Events> context) {
@@ -169,7 +169,7 @@ public class StateMachineConfig {
 
 	@Bean
 	public Action<States, Events> delAction() {
-		return new Action<States, Events>() {
+		return new Action<>() {
 
 			@Override
 			public void execute(StateContext<States, Events> context) {
@@ -183,7 +183,7 @@ public class StateMachineConfig {
 
 	@Bean
 	public Action<States, Events> payAction() {
-		return new Action<States, Events>() {
+		return new Action<>() {
 
 			@Override
 			public void execute(StateContext<States, Events> context) {
@@ -194,7 +194,7 @@ public class StateMachineConfig {
 
 	@Bean
 	public Action<States, Events> resetAction() {
-		return new Action<States, Events>() {
+		return new Action<>() {
 
 			@Override
 			public void execute(StateContext<States, Events> context) {
@@ -212,14 +212,14 @@ public class StateMachineConfig {
 	@Bean
 	public StateMachinePersist<States, Events, String> stateMachinePersist(RedisConnectionFactory connectionFactory) {
 		RedisStateMachineContextRepository<States, Events> repository =
-				new RedisStateMachineContextRepository<States, Events>(connectionFactory);
+				new RedisStateMachineContextRepository<>(connectionFactory);
 		return new RepositoryStateMachinePersist<States, Events>(repository);
 	}
 
 	@Bean
 	public RedisStateMachinePersister<States, Events> redisStateMachinePersister(
 			StateMachinePersist<States, Events, String> stateMachinePersist) {
-		return new RedisStateMachinePersister<States, Events>(stateMachinePersist);
+		return new RedisStateMachinePersister<>(stateMachinePersist);
 	}
 //end::snippetD[]
 

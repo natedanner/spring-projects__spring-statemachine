@@ -44,7 +44,7 @@ import com.esotericsoftware.kryo.io.Output;
  */
 public class RedisStateMachineContextRepository<S, E> implements StateMachineContextRepository<S, E, StateMachineContext<S, E>> {
 
-	private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
+	private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<>() {
 
 		@SuppressWarnings("rawtypes")
 		@Override
@@ -79,7 +79,7 @@ public class RedisStateMachineContextRepository<S, E> implements StateMachineCon
 	}
 
 	private static RedisTemplate<String,byte[]> createDefaultTemplate(RedisConnectionFactory connectionFactory) {
-		RedisTemplate<String,byte[]> template = new RedisTemplate<String,byte[]>();
+		RedisTemplate<String,byte[]> template = new RedisTemplate<>();
 		template.setKeySerializer(new StringRedisSerializer());
 		template.setHashKeySerializer(new StringRedisSerializer());
 		template.setConnectionFactory(connectionFactory);

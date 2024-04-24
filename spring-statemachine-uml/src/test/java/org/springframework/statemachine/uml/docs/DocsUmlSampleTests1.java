@@ -78,7 +78,7 @@ public class DocsUmlSampleTests1 {
 		}
 
 		public Action<String, String> myAction() {
-			return new Action<String, String>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<String, String> context) {
@@ -87,7 +87,7 @@ public class DocsUmlSampleTests1 {
 		}
 
 		public Guard<String, String> myGuard() {
-			return new Guard<String, String>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<String, String> context) {

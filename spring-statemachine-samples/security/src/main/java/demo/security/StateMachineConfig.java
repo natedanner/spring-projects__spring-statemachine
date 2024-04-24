@@ -129,7 +129,7 @@ public class StateMachineConfig {
 		@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 		@Bean
 		public Action<States, Events> adminAction() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Secured("ROLE_ADMIN")
 				@Override
@@ -143,7 +143,7 @@ public class StateMachineConfig {
 		//tag::snippetD[]
 		@Bean
 		public Action<States, Events> transitionAction() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<States, Events> context) {
@@ -165,11 +165,11 @@ public class StateMachineConfig {
 	}
 
 	public enum States {
-		S0, S1, S2, S3;
+		S0, S1, S2, S3
 	}
 
 	public enum Events {
-		A, B, C, D, E, F;
+		A, B, C, D, E, F
 	}
 
 }

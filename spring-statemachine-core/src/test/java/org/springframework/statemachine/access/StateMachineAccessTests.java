@@ -64,7 +64,7 @@ public class StateMachineAccessTests {
 
 		@Override
 		public StateMachineAccessor<String, String> getStateMachineAccessor() {
-			return new StateMachineAccessor<String, String>() {
+			return new StateMachineAccessor<>() {
 
 				@Override
 				public void doWithAllRegions(Consumer<StateMachineAccess<String, String>> stateMachineAccess) {
@@ -73,7 +73,7 @@ public class StateMachineAccessTests {
 
 				@Override
 				public List<StateMachineAccess<String, String>> withAllRegions() {
-					List<StateMachineAccess<String, String>> list = new ArrayList<StateMachineAccess<String,String>>();
+					List<StateMachineAccess<String, String>> list = new ArrayList<>();
 					list.add(MockStateMachine.this);
 					return list;
 				}

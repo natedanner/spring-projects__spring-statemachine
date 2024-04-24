@@ -54,9 +54,8 @@ public class DocsMigrationTests {
 		// tag::snippetB3[]
 		Mono<Message<String>> mono = Mono.just(MessageBuilder.withPayload("EVENT").build());
 		machine.sendEvent(mono)
-			.doOnComplete(() -> {
-				System.out.println("Event handling complete");
-			})
+			.doOnComplete(() ->
+				System.out.println("Event handling complete"))
 			.subscribe();
 		// end::snippetB3[]
 	}

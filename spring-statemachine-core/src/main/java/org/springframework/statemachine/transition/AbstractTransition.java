@@ -41,7 +41,7 @@ import reactor.core.publisher.Mono;
  */
 public abstract class AbstractTransition<S, E> implements Transition<S, E> {
 
-	private final static Log log = LogFactory.getLog(AbstractTransition.class);
+	private static final Log log = LogFactory.getLog(AbstractTransition.class);
 	protected final State<S, E> target;
 	protected final Collection<Function<StateContext<S, E>, Mono<Void>>> actions;
 	private final State<S, E> source;
@@ -92,7 +92,7 @@ public abstract class AbstractTransition<S, E> implements Transition<S, E> {
 		this.guard = guard;
 		this.trigger = trigger;
 		this.securityRule = securityRule;
-		this.name = (name == null) ? "" : name;
+		this.name = name == null ? "" : name;
 	}
 
 	@Override
@@ -109,9 +109,8 @@ public abstract class AbstractTransition<S, E> implements Transition<S, E> {
 	public Mono<Boolean> transit(StateContext<S, E> context) {
 		if (guard != null) {
 			return guard.apply(context)
-				.doOnError(e -> {
-					log.warn("Deny guard due to throw as GUARD should not error", e);
-				})
+				.doOnError(e ->
+					log.warn("Deny guard due to throw as GUARD should not error", e))
 				.onErrorReturn(false);
 		}
 		return Mono.just(true);

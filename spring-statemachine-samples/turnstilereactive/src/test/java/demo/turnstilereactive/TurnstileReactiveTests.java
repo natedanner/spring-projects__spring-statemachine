@@ -41,9 +41,8 @@ public class TurnstileReactiveTests {
 	@Test
 	public void testState() {
 		webClient.get().uri("/state").exchange()
-			.expectBody(String.class).value(body -> {
-				assertThat(body).contains("LOCKED");
-			});
+			.expectBody(String.class).value(body ->
+				assertThat(body).contains("LOCKED"));
 	}
 
 	@Test

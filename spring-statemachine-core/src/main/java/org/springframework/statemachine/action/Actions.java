@@ -46,7 +46,7 @@ public final class Actions {
 	 * @return an empty (Noop) Action.
 	 */
 	public static <S, E> Action<S, E> emptyAction() {
-		return new Action<S, E>() {
+		return new Action<>() {
 			@Override
 			public void execute(final StateContext<S, E> context) {
 				// Nothing to do;
@@ -64,7 +64,7 @@ public final class Actions {
 	 * @return the error calling action
 	 */
 	public static <S, E> Action<S, E> errorCallingAction(final Action<S, E> action, final Action<S, E> errorAction) {
-		return new Action<S, E>() {
+		return new Action<>() {
 			@Override
 			public void execute(final StateContext<S, E> context) {
 				try {

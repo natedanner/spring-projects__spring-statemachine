@@ -62,17 +62,16 @@ class DocsPlugin implements Plugin<Project> {
 				task.enforcedPlatform(":spring-statemachine-platform");
 			});
 
-		project.getPlugins().withType(AsciidoctorJPlugin.class, (asciidoctorPlugin) -> {
+		project.getPlugins().withType(AsciidoctorJPlugin.class, asciidoctorPlugin -> {
 			// makeAllWarningsFatal(project);
 			upgradeAsciidoctorJVersion(project);
 			createAsciidoctorExtensionsConfiguration(project);
 			project.getTasks()
 				.withType(AbstractAsciidoctorTask.class,
-						(asciidoctorTask) -> configureAsciidoctorTask(project, asciidoctorTask, dependencyVersions));
+						asciidoctorTask -> configureAsciidoctorTask(project, asciidoctorTask, dependencyVersions));
 		});
-		project.getTasks().withType(GenerateModuleMetadata.class, metadata -> {
-			metadata.setEnabled(false);
-		});
+		project.getTasks().withType(GenerateModuleMetadata.class, metadata ->
+			metadata.setEnabled(false));
 	}
 
 	private void upgradeAsciidoctorJVersion(Project project) {
@@ -80,11 +79,10 @@ class DocsPlugin implements Plugin<Project> {
 	}
 
 	private void createAsciidoctorExtensionsConfiguration(Project project) {
-		project.getConfigurations().create(EXTENSIONS_CONFIGURATION_NAME, (configuration) -> {
+		project.getConfigurations().create(EXTENSIONS_CONFIGURATION_NAME, configuration ->
 			configuration.getDependencies()
 				.add(project.getDependencies()
-					.create("io.spring.asciidoctor.backends:spring-asciidoctor-backends:0.0.5"));
-		});
+					.create("io.spring.asciidoctor.backends:spring-asciidoctor-backends:0.0.5")));
 	}
 
 	private void configureAsciidoctorTask(Project project, AbstractAsciidoctorTask asciidoctorTask, ExtractVersionConstraints dependencyVersions) {
@@ -95,7 +93,7 @@ class DocsPlugin implements Plugin<Project> {
 		createSyncDocumentationSourceTask(project, asciidoctorTask, dependencyVersions);
 		if (asciidoctorTask instanceof AsciidoctorTask) {
 			AsciidoctorTask task = (AsciidoctorTask)asciidoctorTask;
-			task.outputOptions((outputOptions) -> outputOptions.backends("spring-html"));
+			task.outputOptions(outputOptions -> outputOptions.backends("spring-html"));
 		}
 	}
 
@@ -106,9 +104,8 @@ class DocsPlugin implements Plugin<Project> {
 	private Sync createSyncDocumentationSourceTask(Project project, AbstractAsciidoctorTask asciidoctorTask, ExtractVersionConstraints dependencyVersions) {
 		Sync syncDocumentationSource = project.getTasks()
 			.create("syncDocumentationSourceFor" + StringUtils.capitalize(asciidoctorTask.getName()), Sync.class);
-		syncDocumentationSource.preserve(filter -> {
-			filter.include("**/*");
-		});
+		syncDocumentationSource.preserve(filter ->
+			filter.include("**/*"));
 		File syncedSource = new File(project.getBuildDir(), "docs/src/" + asciidoctorTask.getName());
 		syncDocumentationSource.setDestinationDir(syncedSource);
 		// syncDocumentationSource.from("src/main/");
@@ -153,7 +150,7 @@ class DocsPlugin implements Plugin<Project> {
 			"spring-statemachine-samples/datajpamultipersist/src/main/resources/",
 			"spring-statemachine-samples/datapersist/src/main/java/",
 			"spring-statemachine-samples/monitoring/src/main/java/");
-		Sync sync = project.getTasks().create("snippetResources", Sync.class, s -> {
+		return project.getTasks().create("snippetResources", Sync.class, s -> {
 			for (String source : sources) {
 				s.from(new File(project.getRootProject().getRootDir(), source), spec -> {
 					spec.include("**/*.java", "**/*.uml", "**/*.json");
@@ -165,7 +162,6 @@ class DocsPlugin implements Plugin<Project> {
 			File destination = new File(project.getBuildDir(), "docs/src/asciidoctor/asciidoc/samples");
 			s.into(destination);
 		});
-		return sync;
 	}
 
 	private void configureCommonAttributes(Project project, AbstractAsciidoctorTask asciidoctorTask,

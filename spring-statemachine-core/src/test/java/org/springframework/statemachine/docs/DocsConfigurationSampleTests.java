@@ -195,7 +195,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Guard<States, Events> guard() {
-			return new Guard<States, Events>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<States, Events> context) {
@@ -226,7 +226,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<States, Events> action() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<States, Events> context) {
@@ -258,7 +258,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> action() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -289,7 +289,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> action() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -300,7 +300,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> errorAction() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -334,7 +334,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> action() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -345,7 +345,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> errorAction() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -377,7 +377,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> action() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -388,7 +388,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Action<States, Events> errorAction() {
-				return new Action<States, Events>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<States, Events> context) {
@@ -713,7 +713,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<States, Events> initialAction() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<States, Events> context) {
@@ -789,7 +789,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Guard<States, Events> s2Guard() {
-			return new Guard<States, Events>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<States, Events> context) {
@@ -800,7 +800,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Guard<States, Events> s3Guard() {
-			return new Guard<States, Events>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<States, Events> context) {
@@ -842,9 +842,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 					.and()
 				.withChoice()
 					.source(States.S1)
-					.first(States.S2, c -> {
-							return true;
-						})
+					.first(States.S2, c -> true)
 					.last(States.S3, c -> {
 							// action with S1-S3
 						}, c -> {
@@ -884,7 +882,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Guard<States, Events> s2Guard() {
-				return new Guard<States, Events>() {
+				return new Guard<>() {
 
 					@Override
 					public boolean evaluate(StateContext<States, Events> context) {
@@ -895,7 +893,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public Guard<States, Events> s3Guard() {
-				return new Guard<States, Events>() {
+				return new Guard<>() {
 
 					@Override
 					public boolean evaluate(StateContext<States, Events> context) {
@@ -1142,7 +1140,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 // tag::snippetVC[]
 		@Bean
 		public Guard<States, Events> guard1() {
-			return new Guard<States, Events>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<States, Events> context) {
@@ -1168,7 +1166,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 // tag::snippetVD[]
 		@Bean
 		public Action<States, Events> action1() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<States, Events> context) {
@@ -1268,7 +1266,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 			@Bean
 			public StateMachineModelVerifier<States, Events> verifier() {
-				return new StateMachineModelVerifier<States, Events>() {
+				return new StateMachineModelVerifier<>() {
 
 					@Override
 					public void verify(StateMachineModel<States, Events> model) {
@@ -1281,7 +1279,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		public class AccessorSamples {
 
-			StateMachine<String, String> stateMachine = null;
+			StateMachine<String, String> stateMachine;
 
 			void s1() {
 // tag::snippetZA[]
@@ -1323,7 +1321,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 		public class InterceptorSamples {
 
-			StateMachine<String, String> stateMachine = null;
+			StateMachine<String, String> stateMachine;
 
 			void s1() {
 // tag::snippetZH[]
@@ -1451,7 +1449,7 @@ public class DocsConfigurationSampleTests extends AbstractStateMachineTests {
 
 // tag::snippet7[]
 			public Action<String, String> myVariableAction() {
-				return new Action<String, String>() {
+				return new Action<>() {
 
 					@Override
 					public void execute(StateContext<String, String> context) {

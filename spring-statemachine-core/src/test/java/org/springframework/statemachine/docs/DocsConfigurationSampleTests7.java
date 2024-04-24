@@ -60,7 +60,7 @@ public class DocsConfigurationSampleTests7 {
 
 		@Bean
 		public Guard<String, String> guard1(final boolean value) {
-			return new Guard<String, String>() {
+			return new Guard<>() {
 				@Override
 				public boolean evaluate(StateContext<String, String> context) {
 					return value;
@@ -69,7 +69,7 @@ public class DocsConfigurationSampleTests7 {
 		}
 
 		public Guard<String, String> guard2(final boolean value) {
-			return new Guard<String, String>() {
+			return new Guard<>() {
 				@Override
 				public boolean evaluate(StateContext<String, String> context) {
 					return value;

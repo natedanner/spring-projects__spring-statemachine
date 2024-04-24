@@ -207,7 +207,7 @@ public class GuardTests {
 
 		@Bean
 		public Guard<TestStates, TestEvents> testGuard1() {
-			return new Guard<TestStates, TestEvents>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<TestStates, TestEvents> context) {
@@ -218,7 +218,7 @@ public class GuardTests {
 
 		@Bean
 		public Guard<TestStates, TestEvents> testGuard2() {
-			return new Guard<TestStates, TestEvents>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<TestStates, TestEvents> context) {

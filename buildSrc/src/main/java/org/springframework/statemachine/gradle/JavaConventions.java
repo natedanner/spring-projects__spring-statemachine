@@ -52,7 +52,7 @@ class JavaConventions {
 	}
 
 	private void configureJavadocConventions(Project project) {
-		project.getTasks().withType(Javadoc.class, (javadoc) -> {
+		project.getTasks().withType(Javadoc.class, javadoc -> {
 			CoreJavadocOptions options = (CoreJavadocOptions) javadoc.getOptions();
 			options.source("17");
 			options.encoding("UTF-8");
@@ -61,7 +61,7 @@ class JavaConventions {
 	}
 
 	private void configureJavaConventions(Project project) {
-		project.getTasks().withType(JavaCompile.class, (compile) -> {
+		project.getTasks().withType(JavaCompile.class, compile -> {
 			compile.getOptions().setEncoding("UTF-8");
 			List<String> args = compile.getOptions().getCompilerArgs();
 			if (!args.contains("-parameters")) {
@@ -121,7 +121,7 @@ class JavaConventions {
 		Set<String> javadocJarTaskNames = sourceSets.stream().map(SourceSet::getJavadocJarTaskName)
 				.collect(Collectors.toSet());
 
-		project.getTasks().withType(Jar.class, jar -> {
+		project.getTasks().withType(Jar.class, jar ->
 			jar.manifest(manifest -> {
 				Map<String, Object> attributes = new TreeMap<>();
 				attributes.put("Automatic-Module-Name", project.getName().replace("-", "."));
@@ -131,8 +131,7 @@ class JavaConventions {
 						determineImplementationTitle(project, sourceJarTaskNames, javadocJarTaskNames, jar));
 				attributes.put("Implementation-Version", project.getVersion());
 				manifest.attributes(attributes);
-			});
-		});
+			}));
 	}
 
 	private String determineImplementationTitle(Project project, Set<String> sourceJarTaskNames,

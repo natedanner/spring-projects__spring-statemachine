@@ -44,9 +44,8 @@ public class ConfigurationErrorTests extends AbstractStateMachineTests {
 		assertThatThrownBy(() -> {
 			context.register(Config1.class);
 			context.refresh();
-		}).satisfies(e -> {
-			assertThat(e.getCause()).isInstanceOf(MalformedConfigurationException.class);
-		});
+		}).satisfies(e ->
+			assertThat(e.getCause()).isInstanceOf(MalformedConfigurationException.class));
 	}
 
 	@Test
@@ -65,9 +64,8 @@ public class ConfigurationErrorTests extends AbstractStateMachineTests {
 				.target("S2")
 				.event("E1");
 			builder.build();
-		}).satisfies(e -> {
-			assertThat(e.getCause()).isInstanceOf(MalformedConfigurationException.class);
-		});
+		}).satisfies(e ->
+			assertThat(e.getCause()).isInstanceOf(MalformedConfigurationException.class));
 	}
 
 	@Test
@@ -81,9 +79,8 @@ public class ConfigurationErrorTests extends AbstractStateMachineTests {
 				.state("S1")
 				.state("S2");
 			builder.build();
-		}).satisfies(e -> {
-			assertThat(e.getCause()).isInstanceOf(MalformedConfigurationException.class);
-		});
+		}).satisfies(e ->
+			assertThat(e.getCause()).isInstanceOf(MalformedConfigurationException.class));
 	}
 
 	@Test

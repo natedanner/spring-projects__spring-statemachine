@@ -299,17 +299,15 @@ public class StateMachineTestingJUnit4Tests extends AbstractStateMachineJUnit4Te
 					.source("SI")
 					.target("S1")
 					.event("E1")
-					.action(c -> {
-						c.getExtendedState().getVariables().put("V1Key", "V1Value");
-					})
+					.action(c ->
+						c.getExtendedState().getVariables().put("V1Key", "V1Value"))
 					.and()
 				.withExternal()
 					.source("S1")
 					.target("S2")
 					.event("E2")
-					.action(c -> {
-						c.getExtendedState().getVariables().put("V2Key", "V2Value");
-					});
+					.action(c ->
+						c.getExtendedState().getVariables().put("V2Key", "V2Value"));
 		}
 	}
 }

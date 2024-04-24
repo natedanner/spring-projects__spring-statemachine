@@ -46,7 +46,7 @@ public class DocsConfigurationSampleTests12 {
 			states
 				.withStates()
 					.initial("SI")
-					.stateEntry("S1", (context) -> {
+					.stateEntry("S1", context -> {
 						throw new RuntimeException("example error");
 					});
 		}
@@ -72,11 +72,10 @@ public class DocsConfigurationSampleTests12 {
 		assertThat(machine.getState().getIds()).containsExactlyInAnyOrder("SI");
 
 		StepVerifier.create(machine.sendEvent(Mono.just(MessageBuilder.withPayload("E1").build())))
-			.consumeNextWith(result -> {
+			.consumeNextWith(result ->
 				StepVerifier.create(result.complete()).consumeErrorWith(e -> {
 					assertThat(e).isInstanceOf(StateMachineException.class).cause().hasMessageContaining("example error");
-				}).verify();
-			})
+				}).verify())
 			.verifyComplete();
 
 		assertThat(machine.getState().getIds()).containsExactlyInAnyOrder("S1");

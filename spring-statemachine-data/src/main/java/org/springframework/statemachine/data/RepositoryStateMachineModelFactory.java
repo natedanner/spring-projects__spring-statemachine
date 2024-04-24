@@ -105,7 +105,7 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 
 			RepositoryState parentState = s.getParentState();
 			Object region = s.getRegion();
-			StateData<String, String> stateData = new StateData<String, String>(parentState != null ? parentState.getState() : null, region,
+			StateData<String, String> stateData = new StateData<>(parentState != null ? parentState.getState() : null, region,
 					s.getState(), s.isInitial());
 			Action<String, String> initialAction = null;
 			if (s.getInitialAction() != null) {
@@ -115,7 +115,7 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 					SpelExpressionParser parser = new SpelExpressionParser(
 							new SpelParserConfiguration(SpelCompilerMode.MIXED, null));
 
-					initialAction = new SpelExpressionAction<String, String>(parser.parseExpression(s.getInitialAction().getSpel()));
+					initialAction = new SpelExpressionAction<>(parser.parseExpression(s.getInitialAction().getSpel()));
 				}
 			}
 			stateData.setInitialAction(initialAction);
@@ -145,13 +145,13 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 		}
 		StatesData<String, String> statesData = new StatesData<>(stateDatas);
 		Collection<TransitionData<String, String>> transitionData = new ArrayList<>();
-		Collection<EntryData<String, String>> entrys = new ArrayList<EntryData<String, String>>();
-		Collection<ExitData<String, String>> exits = new ArrayList<ExitData<String, String>>();
-		Collection<HistoryData<String, String>> historys = new ArrayList<HistoryData<String, String>>();
-		Map<String, LinkedList<ChoiceData<String, String>>> choices = new HashMap<String, LinkedList<ChoiceData<String,String>>>();
-		Map<String, LinkedList<JunctionData<String, String>>> junctions = new HashMap<String, LinkedList<JunctionData<String,String>>>();
-		Map<String, List<String>> forks = new HashMap<String, List<String>>();
-		Map<String, List<String>> joins = new HashMap<String, List<String>>();
+		Collection<EntryData<String, String>> entrys = new ArrayList<>();
+		Collection<ExitData<String, String>> exits = new ArrayList<>();
+		Collection<HistoryData<String, String>> historys = new ArrayList<>();
+		Map<String, LinkedList<ChoiceData<String, String>>> choices = new HashMap<>();
+		Map<String, LinkedList<JunctionData<String, String>>> junctions = new HashMap<>();
+		Map<String, List<String>> forks = new HashMap<>();
+		Map<String, List<String>> joins = new HashMap<>();
 
 		for (RepositoryTransition t : transitionRepository.findByMachineId(machineId == null ? "" : machineId)) {
 
@@ -167,7 +167,7 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 						SpelExpressionParser parser = new SpelExpressionParser(
 								new SpelParserConfiguration(SpelCompilerMode.MIXED, null));
 
-						action = new SpelExpressionAction<String, String>(parser.parseExpression(repositoryAction.getSpel()));
+						action = new SpelExpressionAction<>(parser.parseExpression(repositoryAction.getSpel()));
 					}
 					if (action != null) {
 						actions.add(Actions.from(action));
@@ -189,7 +189,7 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 			} else if (t.getSource().getKind() == PseudoStateKind.CHOICE) {
 				LinkedList<ChoiceData<String, String>> list = choices.get(t.getSource().getState());
 				if (list == null) {
-					list = new LinkedList<ChoiceData<String, String>>();
+					list = new LinkedList<>();
 					choices.put(t.getSource().getState(), list);
 				}
 				// we want null guards to be at the end
@@ -201,7 +201,7 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 			} else if (t.getSource().getKind() == PseudoStateKind.JUNCTION) {
 				LinkedList<JunctionData<String, String>> list = junctions.get(t.getSource().getState());
 				if (list == null) {
-					list = new LinkedList<JunctionData<String, String>>();
+					list = new LinkedList<>();
 					junctions.put(t.getSource().getState(), list);
 				}
 				// we want null guards to be at the end
@@ -213,14 +213,14 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 			} else if (t.getSource().getKind() == PseudoStateKind.FORK) {
 				List<String> list = forks.get(t.getSource().getState());
 				if (list == null) {
-					list = new ArrayList<String>();
+					list = new ArrayList<>();
 					forks.put(t.getSource().getState(), list);
 				}
 				list.add(t.getTarget().getState());
 			} else if (t.getTarget().getKind() == PseudoStateKind.JOIN) {
 				List<String> list = joins.get(t.getTarget().getState());
 				if (list == null) {
-					list = new ArrayList<String>();
+					list = new ArrayList<>();
 					joins.put(t.getTarget().getState(), list);
 				}
 				list.add(t.getSource().getState());
@@ -231,9 +231,9 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 			}
 		}
 
-		HashMap<String, List<ChoiceData<String, String>>> choicesCopy = new HashMap<String, List<ChoiceData<String, String>>>();
+		HashMap<String, List<ChoiceData<String, String>>> choicesCopy = new HashMap<>();
 		choicesCopy.putAll(choices);
-		HashMap<String, List<JunctionData<String, String>>> junctionsCopy = new HashMap<String, List<JunctionData<String, String>>>();
+		HashMap<String, List<JunctionData<String, String>>> junctionsCopy = new HashMap<>();
 		junctionsCopy.putAll(junctions);
 
 		TransitionsData<String, String> transitionsData = new TransitionsData<>(transitionData, choicesCopy, junctionsCopy, forks, joins,
@@ -254,7 +254,7 @@ public class RepositoryStateMachineModelFactory extends AbstractStateMachineMode
 					SpelExpressionParser parser = new SpelExpressionParser(
 							new SpelParserConfiguration(SpelCompilerMode.MIXED, null));
 
-					action = new SpelExpressionAction<String, String>(parser.parseExpression(repositoryAction.getSpel()));
+					action = new SpelExpressionAction<>(parser.parseExpression(repositoryAction.getSpel()));
 				}
 				if (action != null) {
 					stateActions.add(Actions.from(action));

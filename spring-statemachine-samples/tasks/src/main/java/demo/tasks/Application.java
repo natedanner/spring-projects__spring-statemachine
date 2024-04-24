@@ -143,7 +143,7 @@ public class Application  {
 //tag::snippetAC[]
 		@Bean
 		public Guard<States, Events> tasksChoiceGuard() {
-			return new Guard<States, Events>() {
+			return new Guard<>() {
 
 				@Override
 				public boolean evaluate(StateContext<States, Events> context) {
@@ -159,7 +159,7 @@ public class Application  {
 //tag::snippetAD[]
 		@Bean
 		public Action<States, Events> automaticAction() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<States, Events> context) {
@@ -183,7 +183,7 @@ public class Application  {
 
 		@Bean
 		public Action<States, Events> fixAction() {
-			return new Action<States, Events>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<States, Events> context) {
@@ -217,7 +217,7 @@ public class Application  {
 
 //tag::snippetC[]
 	public enum Events {
-	    RUN, FALLBACK, CONTINUE, FIX;
+	    RUN, FALLBACK, CONTINUE, FIX
 	}
 //end::snippetC[]
 

@@ -112,7 +112,7 @@ public class StateMachineMonitorTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> taction() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 					try {
@@ -125,7 +125,7 @@ public class StateMachineMonitorTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> enaction() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 					try {
@@ -138,7 +138,7 @@ public class StateMachineMonitorTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> exaction() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 					try {

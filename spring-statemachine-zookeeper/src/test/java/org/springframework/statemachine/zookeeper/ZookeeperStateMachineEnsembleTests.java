@@ -59,7 +59,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		ensemble.afterPropertiesSet();
 
@@ -78,7 +78,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		ensemble.afterPropertiesSet();
 
@@ -100,9 +100,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		ensemble1.afterPropertiesSet();
 		ensemble2.afterPropertiesSet();
@@ -130,9 +130,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener1 = new TestEnsembleListener();
 		TestEnsembleListener listener2 = new TestEnsembleListener();
@@ -169,7 +169,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 		curatorClient.create().creatingParentsIfNeeded().forPath("/foo/data/log", new byte[10]);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ensemble1.afterPropertiesSet();
 		ensemble1.start();
 
@@ -186,7 +186,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo", true, 4);
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo", true, 4);
 
 		ensemble.afterPropertiesSet();
 		ensemble.start();
@@ -243,7 +243,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener = new TestEnsembleListener();
 		ensemble.addEnsembleListener(listener);
@@ -276,9 +276,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener1 = new TestEnsembleListener();
 		ensemble1.addEnsembleListener(listener1);
@@ -323,9 +323,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener1 = new TestEnsembleListener();
 		ensemble1.addEnsembleListener(listener1);
@@ -348,7 +348,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 		Exception e = null;
 		try {
 			for (int i = 0; i < 10; i++) {
-				if (((i % 2) == 0)) {
+				if ((i % 2) == 0) {
 					ensemble1.setState(new DefaultStateMachineContext<String, String>("S" + i, "E" + i,
 							new HashMap<String, Object>(), new DefaultExtendedState()));
 				} else {
@@ -386,9 +386,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener1 = new TestEnsembleListener();
 		ensemble1.addEnsembleListener(listener1);
@@ -408,7 +408,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 		for (int i = 0; i < 10; i++) {
 			listener1.reset(0, 1);
 			listener2.reset(0, 1);
-			if (((i % 2) == 0)) {
+			if ((i % 2) == 0) {
 				ensemble1.setState(new DefaultStateMachineContext<String, String>("S" + i, "E" + i,
 						new HashMap<String, Object>(), new DefaultExtendedState()));
 			} else {
@@ -431,7 +431,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener = new TestEnsembleListener();
 		ensemble.addEnsembleListener(listener);
@@ -467,9 +467,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener1 = new TestEnsembleListener();
 		TestEnsembleListener listener2 = new TestEnsembleListener();
@@ -515,9 +515,9 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 				context.getBean("curatorClient", CuratorFramework.class);
 
 		ZookeeperStateMachineEnsemble<String, String> ensemble1 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 		ZookeeperStateMachineEnsemble<String, String> ensemble2 =
-				new ZookeeperStateMachineEnsemble<String, String>(curatorClient, "/foo");
+				new ZookeeperStateMachineEnsemble<>(curatorClient, "/foo");
 
 		TestEnsembleListener listener1 = new TestEnsembleListener();
 		TestEnsembleListener listener2 = new TestEnsembleListener();
@@ -608,7 +608,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 		// logging error if this fails
 		TestUtils.callMethod("registerWatcherForStatePath", ensemble);
 		String reason = "";
-		if (listener.errors.size() > 0) {
+		if (!listener.errors.isEmpty()) {
 			reason = listener.errors.get(0).toString();
 		}
 		assertThat(listener.errors).withFailMessage(reason).isEmpty();
@@ -623,7 +623,7 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 
 	private class OverflowControlZookeeperStateMachineEnsemble extends ZookeeperStateMachineEnsemble<String, String> {
 
-		boolean enabled = false;
+		boolean enabled;
 
 		public OverflowControlZookeeperStateMachineEnsemble(CuratorFramework curatorClient, String basePath,
 				boolean cleanState, int logSize) {
@@ -649,8 +649,8 @@ public class ZookeeperStateMachineEnsembleTests extends AbstractZookeeperTests {
 		volatile CountDownLatch joinedLatch = new CountDownLatch(1);
 		volatile CountDownLatch eventLatch = new CountDownLatch(1);
 		volatile CountDownLatch errorLatch = new CountDownLatch(1);
-		volatile List<Exception> errors = new ArrayList<Exception>();
-		volatile List<StateMachineContext<String, String>> events = new ArrayList<StateMachineContext<String,String>>();
+		volatile List<Exception> errors = new ArrayList<>();
+		volatile List<StateMachineContext<String, String>> events = new ArrayList<>();
 
 		@Override
 		public void stateMachineJoined(StateMachine<String, String> stateMachine, StateMachineContext<String, String> context) {

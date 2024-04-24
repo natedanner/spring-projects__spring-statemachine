@@ -66,9 +66,8 @@ public class DocsConfigurationSampleTests8 {
 			Collection<TransitionData<String, String>> transitionData = new ArrayList<>();
 			transitionData.add(new TransitionData<String, String>("S1", "S2", "E1"));
 			TransitionsData<String, String> transitionsData = new TransitionsData<>(transitionData);
-			StateMachineModel<String, String> stateMachineModel = new DefaultStateMachineModel<String, String>(configurationData,
+			return new DefaultStateMachineModel<>(configurationData,
 					statesData, transitionsData);
-			return stateMachineModel;
 		}
 
 		@Override

@@ -27,7 +27,7 @@ import org.gradle.plugins.ide.eclipse.model.EclipseModel;
 class EclipseConventions {
 
 	void apply(Project project) {
-		project.getPlugins().withType(EclipsePlugin.class, (eclipse) -> {
+		project.getPlugins().withType(EclipsePlugin.class, eclipse -> {
 			EclipseModel eclipseModel = project.getExtensions().getByType(EclipseModel.class);
 			eclipseModel.classpath(this::configureClasspath);
 		});
@@ -38,7 +38,7 @@ class EclipseConventions {
 	}
 
 	private void configureClasspathFile(XmlFileContentMerger merger) {
-		merger.whenMerged((content) -> {
+		merger.whenMerged(content -> {
 			if (content instanceof Classpath) {
 				Classpath classpath = (Classpath) content;
 				for (ClasspathEntry entry : classpath.getEntries()) {

@@ -22,7 +22,7 @@ public class TreeTests {
 
 	@Test
 	public void testTree1() {
-		Tree<String> tree = new Tree<String>();
+		Tree<String> tree = new Tree<>();
 		tree.add("S", "S", null);
 		tree.add("S1", "S1", "S");
 		tree.add("S2", "S2", "S");
@@ -31,7 +31,7 @@ public class TreeTests {
 		tree.add("S13", "S13", "S1");
 		tree.add("S21", "S21", "S2");
 
-		TreeTraverser<Node<String>> traverser = new TreeTraverser<Node<String>>() {
+		TreeTraverser<Node<String>> traverser = new TreeTraverser<>() {
 		    @Override
 		    public Iterable<Node<String>> children(Node<String> root) {
 		        return root.getChildren();
@@ -45,7 +45,7 @@ public class TreeTests {
 
 	@Test
 	public void testTree2() {
-		Tree<String> tree = new Tree<String>();
+		Tree<String> tree = new Tree<>();
 		tree.add("S2", "S2", "S");
 		tree.add("S13", "S13", "S1");
 		tree.add("S11", "S11", "S1");
@@ -54,7 +54,7 @@ public class TreeTests {
 		tree.add("S21", "S21", "S2");
 		tree.add("S1", "S1", "S");
 
-		TreeTraverser<Node<String>> traverser = new TreeTraverser<Node<String>>() {
+		TreeTraverser<Node<String>> traverser = new TreeTraverser<>() {
 		    @Override
 		    public Iterable<Node<String>> children(Node<String> root) {
 		        return root.getChildren();
@@ -68,11 +68,11 @@ public class TreeTests {
 
 	@Test
 	public void testTree3() {
-		Tree<String> tree = new Tree<String>();
+		Tree<String> tree = new Tree<>();
 		tree.add("S1", "S1", null);
 		tree.add("S2", "S2", null);
 
-		TreeTraverser<Node<String>> traverser = new TreeTraverser<Node<String>>() {
+		TreeTraverser<Node<String>> traverser = new TreeTraverser<>() {
 		    @Override
 		    public Iterable<Node<String>> children(Node<String> root) {
 		        return root.getChildren();

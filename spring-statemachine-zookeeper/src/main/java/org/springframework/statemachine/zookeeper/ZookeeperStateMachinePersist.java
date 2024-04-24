@@ -51,7 +51,7 @@ public class ZookeeperStateMachinePersist<S, E> implements StateMachinePersist<S
 
 	// kryo is not a thread safe so using thread local, also
 	// adding custom serializer for state machine context.
-	private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
+	private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<>() {
 
 		@SuppressWarnings("rawtypes")
 		@Override

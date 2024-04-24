@@ -136,7 +136,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 	static class Config1 {
 		@Bean
 		public Action<String, String> action1() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 				}
@@ -162,7 +162,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> action1() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 				}
@@ -188,7 +188,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> action1() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 				}
@@ -221,7 +221,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> action1() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 				}
@@ -230,7 +230,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 
 		@Bean
 		public StateMachineListener<String, String> stateMachineListener() {
-			return new StateMachineListenerAdapter<String, String>(){};
+			return new StateMachineListenerAdapter<>(){};
 		}
 	}
 
@@ -259,7 +259,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<String, String> action1() {
-			return new Action<String, String>() {
+			return new Action<>() {
 				@Override
 				public void execute(StateContext<String, String> context) {
 				}
@@ -268,7 +268,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 
 		@Bean
 		public StateMachineListener<String, String> stateMachineListener() {
-			return new StateMachineListenerAdapter<String, String>(){};
+			return new StateMachineListenerAdapter<>(){};
 		}
 	}
 
@@ -297,8 +297,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 			transitionData.add(new TransitionData<String, String>(state1, state2, event1));
 			TransitionsData<String, String> transitionsData = new TransitionsData<>(transitionData);
 
-			StateMachineModel<String, String> stateMachineModel = new DefaultStateMachineModel<>(configurationData, statesData, transitionsData);
-			return stateMachineModel;
+			return new DefaultStateMachineModel<>(configurationData, statesData, transitionsData);
 		}
 
 		@Override
@@ -335,8 +334,7 @@ public class StateMachineModelFactoryTests extends AbstractStateMachineTests {
 			transitionData.add(new TransitionData<String, String>(state1, state2, event1));
 			TransitionsData<String, String> transitionsData = new TransitionsData<>(transitionData);
 
-			StateMachineModel<String, String> stateMachineModel = new DefaultStateMachineModel<>(null, statesData, transitionsData);
-			return stateMachineModel;
+			return new DefaultStateMachineModel<>(null, statesData, transitionsData);
 		}
 
 		@Override

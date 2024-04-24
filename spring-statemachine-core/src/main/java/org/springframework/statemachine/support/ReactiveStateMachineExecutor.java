@@ -84,11 +84,11 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 	private final Message<E> initialEvent;
 	private final TransitionComparator<S, E> transitionComparator;
 	private final TransitionConflictPolicy transitionConflictPolicy;
-	private final Queue<Message<E>> deferList = new ConcurrentLinkedQueue<Message<E>>();
+	private final Queue<Message<E>> deferList = new ConcurrentLinkedQueue<>();
 	private final AtomicBoolean initialHandled = new AtomicBoolean(false);
-	private final StateMachineInterceptorList<S, E> interceptors = new StateMachineInterceptorList<S, E>();
+	private final StateMachineInterceptorList<S, E> interceptors = new StateMachineInterceptorList<>();
 	private volatile Message<E> forwardedInitialEvent;
-	private volatile Message<E> queuedMessage = null;
+	private volatile Message<E> queuedMessage;
 	private StateMachineExecutorTransit<S, E> stateMachineExecutorTransit;
 	private Many<TriggerQueueItem> triggerSink;
 	private Flux<Void> triggerFlux;
@@ -105,7 +105,7 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 		this.transitions = transitions;
 		this.initialTransition = initialTransition;
 		this.initialEvent = initialEvent;
-		this.transitionComparator = new TransitionComparator<S, E>(transitionConflictPolicy);
+		this.transitionComparator = new TransitionComparator<>(transitionConflictPolicy);
 		this.transitionConflictPolicy = transitionConflictPolicy;
 		// anonymous transitions are fixed, sort those now
 		this.triggerlessTransitions.sort(transitionComparator);
@@ -116,7 +116,7 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 	protected void onInit() throws Exception {
 		triggerSink = Sinks.many().multicast().onBackpressureBuffer(Queues.SMALL_BUFFER_SIZE, false);
 		// limit concurrency so that we get one by one handling
-		triggerFlux = triggerSink.asFlux().flatMap(trigger -> handleTrigger(trigger), 1);
+		triggerFlux = triggerSink.asFlux().flatMap(this::handleTrigger, 1);
 	}
 
 	@Override
@@ -203,9 +203,8 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 
 		return messages
 			.flatMap(m -> handleEvent(m, callback, triggerCallback))
-			.flatMap(tqi -> Mono.fromRunnable(() -> {
-					triggerSink.emitNext(tqi, EmitFailureHandler.FAIL_FAST);
-				})
+			.flatMap(tqi -> Mono.fromRunnable(() ->
+					triggerSink.emitNext(tqi, EmitFailureHandler.FAIL_FAST))
 				.retryWhen(Retry.fixedDelay(10, Duration.ofMillis(10))))
 			.then()
 			.and(triggerCallbackSink);
@@ -217,7 +216,7 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 		}
 		return Mono.defer(() -> {
 			State<S,E> currentState = stateMachine.getState();
-			if ((currentState != null && currentState.shouldDefer(queuedEvent))) {
+			if (currentState != null && currentState.shouldDefer(queuedEvent)) {
 				log.info("Current state " + currentState + " deferred event " + queuedEvent);
 				return Mono.just(new TriggerQueueItem(null, queuedEvent, callback, triggerCallback));
 			}
@@ -226,16 +225,14 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 				.filter(transition -> transition.getTrigger() != null)
 				.filter(transition -> StateMachineUtils.containsAtleastOne(transition.getSource().getIds(),
 						currentState.getIds()))
-				.flatMap(transition -> {
-					return Mono.from(transition.getTrigger().evaluate(triggerContext))
+				.flatMap(transition -> Mono.from(transition.getTrigger().evaluate(triggerContext))
 						.flatMap(e -> {
 							if (e) {
 								return Mono.just(transition.getTrigger());
 							} else {
 								return Mono.empty();
 							}
-						});
-				})
+						}))
 				.next()
 				.doOnNext(trigger -> deferList.remove(queuedEvent))
 				.map(trigger -> new TriggerQueueItem(trigger, queuedEvent, callback, triggerCallback));
@@ -345,9 +342,8 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 	}
 
 	private Mono<Void> handleTriggerlessTransitions(StateContext<S, E> context, State<S, E> state) {
-		Flux<Mono<Boolean>> monoFlux = Flux.generate((sink) -> {
-			sink.next(handleTriggerTrans(triggerlessTransitions, context != null ? context.getMessage() : null, state));
-		});
+		Flux<Mono<Boolean>> monoFlux = Flux.generate(sink ->
+			sink.next(handleTriggerTrans(triggerlessTransitions, context != null ? context.getMessage() : null, state)));
 		Flux<Boolean> flux = Flux.concat(monoFlux);
 		return flux.takeUntil(b -> !b).then();
 	}
@@ -400,9 +396,8 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 								StateContext<S, E> stateContext = buildStateContext(queuedMessage, tt, relayStateMachine);
 								return tt.transit(stateContext).then(stateMachineExecutorTransit.transit(tt, stateContext, queuedMessage));
 							})
-							.doFinally(s -> {
-								joinSyncTransitions.clear();
-							})
+							.doFinally(s ->
+								joinSyncTransitions.clear())
 							.then(Mono.just(true));
 					} else {
 						return Mono.just(false);
@@ -416,9 +411,8 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 								if (at) {
 									return stateMachineExecutorTransit.transit(t, stateContext, queuedMessage)
 									.thenReturn(true)
-									.doOnNext(a -> {
-										interceptors.postTransition(stateContext);
-									});
+									.doOnNext(a ->
+										interceptors.postTransition(stateContext));
 								} else {
 									return Mono.just(false);
 								}
@@ -438,13 +432,13 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 		// see who initiated this transition
 		MessageHeaders messageHeaders = message != null ? message.getHeaders() : new MessageHeaders(
 				new HashMap<String, Object>());
-		Map<String, Object> map = new HashMap<String, Object>(messageHeaders);
+		Map<String, Object> map = new HashMap<>(messageHeaders);
 		if (!map.containsKey(StateMachineSystemConstants.STATEMACHINE_IDENTIFIER)) {
 			// don't set sm id if it's already present because
 			// we want to keep the originating sm id
 			map.put(StateMachineSystemConstants.STATEMACHINE_IDENTIFIER, stateMachine.getUuid());
 		}
-		return new DefaultStateContext<S, E>(Stage.TRANSITION, message, new MessageHeaders(map), stateMachine.getExtendedState(), transition, stateMachine, null, null, null);
+		return new DefaultStateContext<>(Stage.TRANSITION, message, new MessageHeaders(map), stateMachine.getExtendedState(), transition, stateMachine, null, null, null);
 	}
 
 	private void registerTriggerListener() {
@@ -493,9 +487,8 @@ public class ReactiveStateMachineExecutor<S, E> extends LifecycleObjectSupport i
 		return t -> Mono.deferContextual(Mono::just)
 			.doOnNext(ctx -> {
 				Optional<ExecutorExceptionHolder> holder = ctx.getOrEmpty(REACTOR_CONTEXT_TRIGGER_ERRORS);
-				holder.ifPresent(h -> {
-					h.setError(t);
-				});
+				holder.ifPresent(h ->
+					h.setError(t));
 			})
 			.then();
 	}

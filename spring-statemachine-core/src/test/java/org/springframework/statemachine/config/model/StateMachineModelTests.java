@@ -58,16 +58,16 @@ public class StateMachineModelTests {
 				eventSecurityRule, transitionSecurityRule, verifierEnabled, verifier, null, null, null);
 
 		Collection<StateData<String, String>> stateData = new ArrayList<>();
-		StateData<String, String> stateData1 = new StateData<String, String>(null, null, "S1", null, null, null);
+		StateData<String, String> stateData1 = new StateData<>(null, null, "S1", null, null, null);
 		stateData1.setInitial(true);
 		stateData.add(stateData1);
-		StateData<String, String> stateData2 = new StateData<String, String>(null, null, "S2", null, null, null);
+		StateData<String, String> stateData2 = new StateData<>(null, null, "S2", null, null, null);
 		stateData.add(stateData2);
 		StatesData<String, String> statesData = new StatesData<>(stateData);
 
 
 		Collection<TransitionData<String, String>> transitions = new ArrayList<>();
-		TransitionData<String, String> transitionData1 = new TransitionData<String, String>("S1", "S2", null, "E1", null, null, null, null, TransitionKind.EXTERNAL, null, "");
+		TransitionData<String, String> transitionData1 = new TransitionData<>("S1", "S2", null, "E1", null, null, null, null, TransitionKind.EXTERNAL, null, "");
 		transitions.add(transitionData1);
 		Map<String, List<ChoiceData<String, String>>> choices = new HashMap<>();
 		Map<String, List<JunctionData<String, String>>> junctions = new HashMap<>();
@@ -125,7 +125,7 @@ public class StateMachineModelTests {
 
 		Collection<StateData<String, String>> stateData1 = new ArrayList<>();
 		stateData1.add(new StateData<String, String>("S1", true));
-		StateData<String, String> stateDataS2 = new StateData<String, String>("S2");
+		StateData<String, String> stateDataS2 = new StateData<>("S2");
 		stateDataS2.setSubmachineStateData(stateData2);
 		stateData1.add(stateDataS2);
 		StatesData<String, String> statesData = new StatesData<>(stateData1);

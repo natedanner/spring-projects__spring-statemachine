@@ -91,7 +91,7 @@ public class RelayTests extends AbstractStateMachineTests {
 
 		@Bean
 		public Action<TestStates, TestEvents> action1() {
-			return new Action<TestStates, TestEvents>() {
+			return new Action<>() {
 
 				@Override
 				public void execute(StateContext<TestStates, TestEvents> context) {

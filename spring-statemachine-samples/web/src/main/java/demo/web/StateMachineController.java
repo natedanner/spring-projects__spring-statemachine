@@ -133,7 +133,7 @@ public class StateMachineController {
 
 	@SubscribeMapping("/sm.states")
 	public Collection<StateMachineEvent> retrieveStates() {
-		ArrayList<StateMachineEvent> list = new ArrayList<StateMachineEvent>();
+		ArrayList<StateMachineEvent> list = new ArrayList<>();
 		for (States state : stateMachine.getState().getIds()) {
 			list.add(new StateMachineEvent(state.toString()));
 		}
@@ -178,7 +178,7 @@ public class StateMachineController {
 	@RequestMapping(value = "/status", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public Map<Object, Object> getStatus() {
-		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		HashMap<Object, Object> map = new HashMap<>();
 		map.put("hasStateMachineError", stateMachine.hasStateMachineError());
 		map.put("isComplete", stateMachine.isComplete());
 		map.put("extendedStateVariables", stateMachine.getExtendedState().getVariables());

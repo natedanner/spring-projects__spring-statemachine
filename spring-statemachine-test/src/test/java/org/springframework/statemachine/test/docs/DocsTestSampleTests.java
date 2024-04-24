@@ -76,9 +76,8 @@ public class DocsTestSampleTests {
 				.withExternal()
 					.source("SI").target("S1")
 					.event("E1")
-					.action(c -> {
-						c.getExtendedState().getVariables().put("key1", "value1");
-					});
+					.action(c ->
+						c.getExtendedState().getVariables().put("key1", "value1"));
 
 		return builder.build();
 	}

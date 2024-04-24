@@ -36,7 +36,7 @@ public class SimpleTestConfigBeanABuilder
 		implements ResourceConfigurerAware {
 
 	private String data;
-	private Set<Resource> resources = new HashSet<Resource>();
+	private final Set<Resource> resources = new HashSet<>();
 
 	@Override
 	protected SimpleTestConfigBeanA performBuild() throws Exception {

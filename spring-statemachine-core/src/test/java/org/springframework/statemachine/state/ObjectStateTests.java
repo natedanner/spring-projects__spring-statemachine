@@ -139,9 +139,8 @@ public class ObjectStateTests {
 
 		@Override
 		public Mono<Void> apply(StateContext<String, String> context) {
-			return Mono.<Void>empty().doOnSuccess(d -> {
-				count.incrementAndGet();
-			});
+			return Mono.<Void>empty().doOnSuccess(d ->
+				count.incrementAndGet());
 		}
 	}
 
@@ -167,9 +166,7 @@ public class ObjectStateTests {
 			// 	countAfter.incrementAndGet();
 			// });
 
-			return Mono.fromRunnable(() -> {
-				sleep();
-			});
+			return Mono.fromRunnable(this::sleep);
 		}
 
 		private void sleep() {
